@@ -1,0 +1,77 @@
+<div class="filters">
+<mat-form-field appearance="fill">
+  <mat-label>Country</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let country of countries" [value]="selectedCountry" (selectionChange)="resetSearch">
+      {{country.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+  <mat-form-field appearance="fill">
+  <mat-label>City</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let city of cities" [value]="selectedCity" (selectionChange)="resetSearch">
+      {{city.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+</div>
+
+<mat-table [dataSource]="items" class="search-results" matSort matSortActive="Country" matSortDisableClear
+           matSortDirection="desc" (scroll)="onTableScroll($event)" (matSortChange)="sortData($event)">
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef> Num. </mat-header-cell>
+          <mat-cell class="position" *matCellDef="let element; let i = index">#{{i + 1}}</mat-cell>
+        </ng-container>
+
+  <!-- Country Column -->
+        <ng-container matColumnDef="country">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
+          <mat-cell class='has_label_on_mobile' *matCellDef="let row"
+                    data-label="County: ">{{row.country}}</mat-cell>
+        </ng-container>
+
+  <!-- City Column -->
+        <ng-container matColumnDef="city">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>City</mat-header-cell>
+          <mat-cell class='has_label_on_mobile' *matCellDef="let row"
+                    data-label="City: ">{{row.city}}</mat-cell>
+        </ng-container>
+
+  <!-- Location Column -->
+        <ng-container matColumnDef="location">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+          <mat-cell class='has_label_on_mobile' *matCellDef="let row"
+                    data-label="Location: ">{{row.location}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="parameter">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Parameter </mat-header-cell>
+              <mat-cell class='has_label_on_mobile' *matCellDef="let row"
+                        data-label="Parameter: "> {{row.parameter}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="pollution">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Value</mat-header-cell>
+              <mat-cell class='has_label_on_mobile' *matCellDef="let row"
+                        data-label="Value: "> {{row.value}} {{row.unit}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="coordinates">
+              <mat-header-cell *matHeaderCellDef
+                               mat-sort-header>Coordinates (Latitude, Longtitude)</mat-header-cell>
+              <mat-cell *matCellDef="let row"
+                        data-label="Coordinates (Latitude, Longtitude): "
+                        class='has_label_on_mobile'> {{row.coordinates.latitude}},
+                {{row.coordinates.longitude}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Date and Time</mat-header-cell>
+              <mat-cell class="date-time" *matCellDef="let row"
+                        data-label="Date and Time:"> {{row.date.local | date:'short'}}</mat-cell>
+          </ng-container>
+  <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+</mat-table>
+
