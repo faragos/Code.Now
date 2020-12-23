@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "devStart": "nodemon ./app.ts",
-    "start": "node ./app.js",
+    "start": "tsc && node ./dist/out-tsc/app.js",
     "build": "tsc",
     "test": "tsc && jest"
   },
