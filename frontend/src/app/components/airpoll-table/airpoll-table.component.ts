@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Sort} from '@angular/material/sort';
 
@@ -7,7 +7,7 @@ import {Sort} from '@angular/material/sort';
   templateUrl: './airpoll-table.component.html',
   styleUrls: ['./airpoll-table.component.css']
 })
-export class AirpollTableComponent implements OnInit {
+export class AirpollTableComponent {
   items = new MatTableDataSource();
   page = 1;
   limit = 100;
@@ -24,22 +24,37 @@ export class AirpollTableComponent implements OnInit {
     this.fetchCities()
   }
 
+  /**
+   * Gets called when the sort changes
+   */
   sortData(sort: Sort) {
     this.resetSearch()
     this.fetchMeasurements(sort.active, sort.direction)
   }
 
+  /**
+   * Resets the search by setting page back on 1 and clears the items
+   */
   resetSearch() {
     this.page = 1;
     this.items = new MatTableDataSource();
   }
 
-  reSearch() {
+  /**
+   * Resets the search and fetches the measurement again
+   */
+  async reSearch() {
     this.resetSearch()
-    this.fetchMeasurements()
+    await this.fetchMeasurements()
   }
 
-  async fetchMeasurements(orderBy = 'Country', sort = 'desc') {
+  /**
+   * Fetches saved measurements.
+   *
+   * @param orderBy ['country'] sort by which attribute
+   * @param sort ['desc'] direction (asc or desc)
+   */
+  async fetchMeasurements(orderBy = 'country', sort = 'desc') {
     const url = new URL('http://localhost:3000/api/airpoll/latest')
     url.searchParams.append('page', this.page + '')
     url.searchParams.append('order_by', orderBy)
@@ -55,41 +70,62 @@ export class AirpollTableComponent implements OnInit {
     this.appendData(responseItems)
   }
 
-  async fetchCities(orderBy = 'country', sort = 'desc') {
-    const url = new URL('https://api.openaq.org/v1/cities')
-    url.searchParams.append('order_by[]', orderBy)
+  /**
+   * Fetches all cities.
+   *
+   * @param orderBy ['country'] sort by which attribute
+   * @param sort ['asc'] direction (asc or desc)
+   */
+  async fetchCities(orderBy = 'name', sort = 'asc') {
+    const url = new URL('http://localhost:3000/api/airpoll/cities')
+    url.searchParams.append('order_by', orderBy)
     url.searchParams.append('sort', sort)
     url.searchParams.append('limit', '1000')
     const response = await fetch(url.toString())
-    const responseItems = await response.json()
-    this.cities = responseItems.results
+    this.cities = await response.json()
   }
 
-  async fetchCountries(orderBy = 'cities', sort = 'desc') {
-    const url = new URL('https://api.openaq.org/v1/countries')
-    url.searchParams.append('order_by[]', orderBy)
+  /**
+   * Fetches all countries.
+   *
+   * (sorting by name fails with a 500)
+   *
+   * @param orderBy ['cities'] sort by which attribute
+   * @param sort ['asc'] direction (asc or desc)
+   */
+  async fetchCountries(orderBy = 'name', sort = 'asc') {
+    const url = new URL('http://localhost:3000/api/airpoll/countries')
+    url.searchParams.append('order_by', orderBy)
     url.searchParams.append('sort', sort)
-    url.searchParams.append('limit', '1000')
+    url.searchParams.append('limit', '400')
     const response = await fetch(url.toString())
-    const responseItems = await response.json()
-    this.countries = responseItems.results
+    this.countries = await response.json()
   }
 
+  /**
+   * Appends the responseItems to the items and increase the page number
+   */
   appendData(responseItems) {
     this.items.data = [...this.items.data, ...responseItems]
     this.page++;
-    console.log(this.items)
   }
 
-  ngOnInit(): void {
+  /**
+   * Resets the country and city filter and searches again.
+   */
+  async resetFilter(e) {
+    this.selectedCountry = null
+    this.selectedCity = null
+    await this.fetchMeasurements()
   }
 
-  async filter(e) {
-
-  }
-
+  /**
+   * Gets called on a scoll on a table.
+   * Checks if the table is close to the end (200px) and loads more data.
+   * If its called multiple times it's only invoked once
+   */
   async onTableScroll(e) {
-    const tableViewHeight = e.target.offsetHeight // viewport: ~500px
+    const tableViewHeight = e.target.offsetHeight // viewport
     const tableScrollHeight = e.target.scrollHeight // length of all table
     const scrollLocation = e.target.scrollTop; // how far user scrolled
 
@@ -99,7 +135,6 @@ export class AirpollTableComponent implements OnInit {
     if (scrollLocation > limit) {
       if (!this.loading) {
         this.loading = true;
-        console.log('scrolled')
         await this.fetchMeasurements()
         this.loading = false;
       }

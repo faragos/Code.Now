@@ -56,10 +56,6 @@ body {
 	width: 250px;
 }
 
-.greenheader {
-	background-color: #62D33F;
-}
-
 .header {
 	position: sticky;
 	position: -webkit-sticky;

@@ -5,9 +5,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {AirpollTableComponent} from './components/airpoll-table/airpoll-table.component';
 import {MatSortModule} from '@angular/material/sort';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,8 +20,8 @@ import {MatSortModule} from '@angular/material/sort';
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
-    InfiniteScrollModule,
-    MatSortModule
+    MatSortModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

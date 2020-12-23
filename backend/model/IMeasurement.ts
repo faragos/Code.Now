@@ -21,7 +21,7 @@ export interface ICoordinates {
   longitude: number
 }
 
-const MeasurementSchemaDefinition = {
+export const MeasurementSchemaDefinition = {
   "location": {
     "type": "String"
   },
@@ -57,5 +57,3 @@ const MeasurementSchemaDefinition = {
     "type": "String"
   }
 }
-
-export {MeasurementSchemaDefinition}

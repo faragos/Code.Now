@@ -1,5 +1,4 @@
 import express from 'express'
-import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import cors from 'cors'
 import airpoll from './routes/airpoll'
@@ -16,8 +15,8 @@ app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-app.use(cookieParser())
 
+// register API
 app.use('/api/airpoll', airpoll)
 
 export default app

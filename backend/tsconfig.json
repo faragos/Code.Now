@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "module": "commonjs",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -14,7 +15,8 @@
       "node_modules/@types"
     ],
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
