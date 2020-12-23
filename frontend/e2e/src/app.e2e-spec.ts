@@ -17,9 +17,9 @@ describe('workspace-project App', () => {
     page.navigateTo();
     page.getCountrySelect().click();
 
-    page.getCountryTaiwanOption().click();
+    page.getCountryUnitedKingdomOption().click();
     browser.waitForAngular();
-    expect(page.getFirstCountryNameInTable()).toEqual('Taiwan');
+    expect(page.getFirstCountryNameInTable()).toEqual('United Kingdom');
   });
 
   it('should sort', () => {
@@ -27,7 +27,7 @@ describe('workspace-project App', () => {
     page.navigateTo();
     page.getCountrySort().click();
     browser.waitForAngular();
-    expect(page.getFirstCountryNameInTable()).toEqual('Andorra');
+    expect(page.getFirstCountryNameInTable()).toEqual('Australia');
   });
 
   afterEach(async () => {

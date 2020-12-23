@@ -24,7 +24,7 @@ export async function init() {
     useCreateIndex: true
   });
 
-  loadEntity('measurements', Measurement, openAQService.loadMeasurements)
+  loadEntity('measurements', Measurement, openAQService.loadMeasurements, 10000)
   loadEntity('countries', Country, openAQService.loadCountries)
   loadEntity('cities', City, openAQService.loadCities, 10000)
 }
@@ -38,7 +38,7 @@ export async function init() {
  * @param limit [limit=1000]
  */
 
-function loadEntity(name: String, model: Model<any>, endpoint: Function, limit: number = 1000) {
+function loadEntity(name: String, model: Model<any>, endpoint: Function, limit: number = 10000) {
   mongoose.connection.db.listCollections({name: name})
   .next(async function (err, collinfo) {
     if (!collinfo) {
