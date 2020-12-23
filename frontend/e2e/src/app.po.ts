@@ -13,8 +13,8 @@ export class AppPage {
     return element(by.className('filter-row')).element(by.className('country-selection'))
   }
 
-  getCountryUnitedKingdomOption() {
-    return element(by.cssContainingText('mat-option .mat-option-text', 'United Kingdom'))
+  getCountryIndiaOption() {
+    return element(by.cssContainingText('mat-option .mat-option-text', 'India'))
   }
 
   getCountrySort() {

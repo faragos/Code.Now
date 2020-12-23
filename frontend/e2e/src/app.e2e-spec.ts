@@ -17,9 +17,9 @@ describe('workspace-project App', () => {
     page.navigateTo();
     page.getCountrySelect().click();
 
-    page.getCountryUnitedKingdomOption().click();
+    page.getCountryIndiaOption().click();
     browser.waitForAngular();
-    expect(page.getFirstCountryNameInTable()).toEqual('United Kingdom');
+    expect(page.getFirstCountryNameInTable()).toEqual('India');
   });
 
   it('should sort', () => {
