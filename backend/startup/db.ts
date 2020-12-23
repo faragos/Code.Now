@@ -4,6 +4,7 @@ import logger from "./logger";
 import {IMeasurement, MeasurementSchemaDefinition} from "../model/IMeasurement";
 import {CountrySchemaDefinition, ICountry} from "../model/ICountry";
 import {CitySchemaDefinition, ICity} from "../model/ICity";
+import {dbConnectionUri} from "../config/db";
 
 const MeasurementSchema: Schema = new Schema(MeasurementSchemaDefinition);
 const Measurement = mongoose.model<IMeasurement>('Measurement', MeasurementSchema);
@@ -13,10 +14,10 @@ const CitySchema: Schema = new Schema(CitySchemaDefinition);
 const City = mongoose.model<ICity>('City', CitySchema);
 
 /**
- * Creates the mongoose-connection and loades the entities
+ * Creates the mongoose-connection and loads the entities
  */
 export async function init() {
-  await mongoose.connect('mongodb+srv://dev:VBJMdMYjPkaMDJSY@airpoll.rbtfe.mongodb.net/airpoll?retryWrites=true&w=majority', {
+  await mongoose.connect(dbConnectionUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
