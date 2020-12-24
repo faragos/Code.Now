@@ -2,7 +2,7 @@
 <div class="filter-row">
   <mat-form-field appearance="fill" class="selection country-selection">
     <mat-label>Country</mat-label>
-    <mat-select (selectionChange)="reSearch()" [(ngModel)]="this.selectedCountry" name="country-selection">
+    <mat-select (selectionChange)="countrySelection()" [(ngModel)]="this.selectedCountry" name="country-selection">
       <mat-option *ngFor="let country of countries" [value]="country">
         {{country.name || country.code}}
       </mat-option>
@@ -28,11 +28,11 @@
     <mat-cell class="position" *matCellDef="let element; let i = index">#{{i + 1}}</mat-cell>
   </ng-container>
 
-  <!-- Country Column -->
-  <ng-container matColumnDef="country">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
+  <!-- Location Column -->
+  <ng-container matColumnDef="location">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
     <mat-cell class='has_label_on_mobile' *matCellDef="let row"
-              data-label="County: ">{{row.country}}</mat-cell>
+              data-label="Location: ">{{row.location}}</mat-cell>
   </ng-container>
 
   <!-- City Column -->
@@ -42,11 +42,18 @@
               data-label="City: ">{{row.city}}</mat-cell>
   </ng-container>
 
-  <!-- Location Column -->
-  <ng-container matColumnDef="location">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+  <!-- Country Column -->
+  <ng-container matColumnDef="country">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
     <mat-cell class='has_label_on_mobile' *matCellDef="let row"
-              data-label="Location: ">{{row.location}}</mat-cell>
+              data-label="County: ">{{row.country}}</mat-cell>
+  </ng-container>
+
+  <!-- Pollution Column -->
+  <ng-container matColumnDef="value">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Pollution</mat-header-cell>
+      <mat-cell class='has_label_on_mobile' *matCellDef="let row"
+                data-label="Value: "> {{row.value}} {{row.unit}}</mat-cell>
   </ng-container>
 
   <!-- Parameter Column -->
@@ -56,17 +63,10 @@
                 data-label="Parameter: "> {{row.parameter}} </mat-cell>
   </ng-container>
 
-  <!-- Pollution Column -->
-  <ng-container matColumnDef="pollution">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Pollution</mat-header-cell>
-      <mat-cell class='has_label_on_mobile' *matCellDef="let row"
-                data-label="Value: "> {{row.value}} {{row.unit}}</mat-cell>
-  </ng-container>
-
   <!-- Coodinates Column -->
   <ng-container matColumnDef="coordinates">
       <mat-header-cell *matHeaderCellDef
-                       mat-sort-header>Coordinates (Latitude, Longtitude)</mat-header-cell>
+                       mat-sort-header>Coordinates <br>(Latitude, Longtitude)</mat-header-cell>
       <mat-cell *matCellDef="let row"
                 data-label="Coordinates (Latitude, Longtitude): "
                 class='has_label_on_mobile'> {{row.coordinates.latitude}},

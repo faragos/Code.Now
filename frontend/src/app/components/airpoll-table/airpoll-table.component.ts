@@ -11,11 +11,13 @@ export class AirpollTableComponent {
   items = new MatTableDataSource();
   page = 1;
   limit = 100;
-  columnsToDisplay: string[] = ['position', 'country', 'city', 'location', 'parameter', 'pollution', 'coordinates', 'date'];
+  columnsToDisplay: string[] = ['position', 'location', 'city', 'country', 'value', 'parameter', 'coordinates', 'date'];
   countries = [];
   cities = [];
   selectedCountry
   selectedCity
+  currentOrderBy = 'country'
+  currentDirection = 'desc'
   loading = false
 
   constructor() {
@@ -28,8 +30,10 @@ export class AirpollTableComponent {
    * Gets called when the sort changes
    */
   sortData(sort: Sort) {
+    this.currentOrderBy = sort.active
+    this.currentDirection = sort.direction
     this.resetSearch()
-    this.fetchMeasurements(sort.active, sort.direction)
+    this.fetchMeasurements()
   }
 
   /**
@@ -43,6 +47,14 @@ export class AirpollTableComponent {
   /**
    * Resets the search and fetches the measurement again
    */
+  async countrySelection() {
+    this.fetchCities()
+    this.reSearch()
+  }
+
+  /**
+   * Resets the search and fetches the measurement again
+   */
   async reSearch() {
     this.resetSearch()
     await this.fetchMeasurements()
@@ -50,15 +62,12 @@ export class AirpollTableComponent {
 
   /**
    * Fetches saved measurements.
-   *
-   * @param orderBy ['country'] sort by which attribute
-   * @param sort ['desc'] direction (asc or desc)
    */
-  async fetchMeasurements(orderBy = 'country', sort = 'desc') {
+  async fetchMeasurements() {
     const url = new URL('http://localhost:3000/api/airpoll/latest')
     url.searchParams.append('page', this.page + '')
-    url.searchParams.append('order_by', orderBy)
-    url.searchParams.append('sort', sort)
+    url.searchParams.append('order_by', this.currentOrderBy)
+    url.searchParams.append('sort', this.currentDirection)
     if (this.selectedCountry) {
       url.searchParams.append('country', this.selectedCountry.name)
     }
@@ -81,6 +90,9 @@ export class AirpollTableComponent {
     url.searchParams.append('order_by', orderBy)
     url.searchParams.append('sort', sort)
     url.searchParams.append('limit', '1000')
+    if (this.selectedCountry) {
+      url.searchParams.append('country', this.selectedCountry.code)
+    }
     const response = await fetch(url.toString())
     this.cities = await response.json()
   }
@@ -116,6 +128,7 @@ export class AirpollTableComponent {
   async resetFilter(e) {
     this.selectedCountry = null
     this.selectedCity = null
+    this.fetchCities()
     await this.fetchMeasurements()
   }
 

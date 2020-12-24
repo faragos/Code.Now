@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     console.log(window.innerWidth)
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 960) {
       this.sidenav.fixedTopGap = 55;
       this.opened = false;
     } else {
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    if (event.target.innerWidth < 768) {
+    if (event.target.innerWidth < 960) {
       this.sidenav.fixedTopGap = 55;
       this.opened = false;
     } else {
@@ -35,10 +35,6 @@ export class AppComponent implements OnInit {
 
   isBiggerScreen() {
     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    if (width < 768) {
-      return true;
-    } else {
-      return false;
-    }
+    return width < 960;
   }
 }

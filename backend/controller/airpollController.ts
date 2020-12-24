@@ -59,8 +59,8 @@ async function handleCountriesRequest(req: Request, res: Response) {
  * @param res
  */
 async function handleCitiesRequest(req: Request, res: Response) {
-  let {limit, orderBy, sort} = extractQueryParams(req);
-  let measurements = await db.City.find().limit(limit).sort([[orderBy, sort]]);
+  let {limit, orderBy, sort, filterQuery} = extractQueryParams(req);
+  let measurements = await db.City.find(filterQuery).limit(limit).sort([[orderBy, sort]]);
   res.send(measurements);
 }
 

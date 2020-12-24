@@ -22,6 +22,6 @@ export class AppPage {
   }
 
   getFirstCountryNameInTable() {
-    return element.all(by.className('mat-row')).first().all((by.css('.has_label_on_mobile'))).first().getText()
+    return element.all(by.className('mat-row')).first().all((by.css('[data-label="County: "]'))).first().getText()
   }
 }
